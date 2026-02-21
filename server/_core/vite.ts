@@ -51,16 +51,13 @@ export function serveStatic(app: Express) {
   const distPath =
     process.env.NODE_ENV === "development"
       ? path.resolve(import.meta.dirname, "../..", "dist", "public")
-      // PERBAIKAN DI SINI: Gunakan path relatif yang benar dari lokasi file server yang sudah di-build
+      // PERBAIKAN: Gunakan path relatif yang benar untuk produksi
       : path.resolve(import.meta.dirname, "public"); 
 
-  // Tambahkan log untuk debugging jika masih error
   console.log(`[Server] Serving static files from: ${distPath}`);
 
   if (!fs.existsSync(distPath)) {
-    console.error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`
-    );
+    console.error(`Could not find the build directory: ${distPath}`);
   }
 
   app.use(express.static(distPath));
@@ -70,7 +67,7 @@ export function serveStatic(app: Express) {
     if (fs.existsSync(indexPath)) {
       res.sendFile(indexPath);
     } else {
-      res.status(404).send("Frontend build not found. Please run 'npm run build' first.");
+      res.status(404).send("Frontend build not found. Run 'pnpm build' first.");
     }
   });
 }
