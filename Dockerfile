@@ -19,6 +19,9 @@ WORKDIR /app
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
+# Copy patches folder (needed for patchedDependencies)
+COPY patches ./patches
+
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
@@ -45,6 +48,9 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
+
+# Copy patches folder (needed for patchedDependencies)
+COPY patches ./patches
 
 # Install only production dependencies
 RUN corepack enable && corepack prepare pnpm@latest --activate && \
