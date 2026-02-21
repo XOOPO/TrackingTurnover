@@ -1,7 +1,7 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { InsertUser, users, activityLogs, InsertActivityLog, providerCredentials, InsertProviderCredential } from "../drizzle/schema";
+import * as schema from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -11,7 +11,7 @@ export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
       const queryClient = postgres(process.env.DATABASE_URL);
-      _db = drizzle(queryClient);
+      _db = drizzle(queryClient, { schema })
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
       _db = null;
