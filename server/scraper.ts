@@ -904,8 +904,9 @@ export async function scrapePlayerTurnover(
   toTime: string | undefined = undefined,
   onProgress?: (progress: number) => void
 ): Promise<TurnoverResult> {
-  const puppeteer = await import('puppeteer-core');
-  const browserPath = '/usr/bin/chromium-browser';
+  const puppeteer = await import("puppeteer-core");
+  // Gunakan environment variable, dengan fallback untuk development lokal
+  const browserPath = process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/chromium-browser";
 
   console.log(`[Scraper] Starting scrape for ${provider}/${brand}/${playerId}`);
 
@@ -919,10 +920,10 @@ export async function scrapePlayerTurnover(
   } else {
     console.log(`[Scraper] Creating new browser session for ${poolKey}`);
     const browser = await puppeteer.launch({
-      executablePath: browserPath,
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    });
+    executablePath: browserPath, // <-- Gunakan variabel ini
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 
     const page = await browser.newPage();
     await page.setViewport({ width: 1920, height: 1080 });
