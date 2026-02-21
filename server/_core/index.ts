@@ -14,8 +14,7 @@ async function startServer() {
   app.use(cookieParser());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-
-  // ✅ Google OAuth routes
+  
   registerOAuthRoutes(app);
 
   // ✅ tRPC
