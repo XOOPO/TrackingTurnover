@@ -6,7 +6,7 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { authRouter } from "../routes/auth";
+import { registerOAuthRoutes } from "./oauth"; // ✅ SATU-SATUNYA AUTH
 
 async function startServer() {
   const app = express();
@@ -15,8 +15,10 @@ async function startServer() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
 
-  app.use("/api/auth", authRouter);
+  // ✅ Google OAuth routes
+  registerOAuthRoutes(app);
 
+  // ✅ tRPC
   app.use(
     "/api/trpc",
     createExpressMiddleware({
