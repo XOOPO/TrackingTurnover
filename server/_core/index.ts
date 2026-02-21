@@ -7,7 +7,6 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import cookieParser from "cookie-parser";
-import { authRouter } from "../routes/auth";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
