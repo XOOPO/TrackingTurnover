@@ -1,6 +1,0 @@
-# nixpacks.toml
-[phases.setup]
-nixPkgs = ["chromium"]
-
-[variables]
-PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"
